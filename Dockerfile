@@ -53,8 +53,8 @@ RUN apt update && \
 RUN rm /microsoft.gpg && \
     rm conan-ubuntu-64_1_10_0.deb
 
-RUN apt install -y python3.6 python3-pip
-RUN pip3 install meson
+RUN apt install -y python3.6 python3-pip pkg-config
+RUN pip3 install meson 
 
 RUN echo 'include "/usr/share/themes/Ambiant-MATE/gtk-2.0/gtkrc"' > /home/andrei/.gtkrc-2.0
 
