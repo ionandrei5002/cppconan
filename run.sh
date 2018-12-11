@@ -4,7 +4,7 @@ echo "Type root path for the cppconan followed by [ENTER]:"
 read root_path
 
 echo "Type the project path followed by [ENTER]:"
-read project
+read -e project
 
 if [ "$root_path" == "" ]; then
     echo "Bad root path: " $root_path
