@@ -59,4 +59,46 @@ RUN pip3 install meson
 RUN echo 'include "/usr/share/themes/Ambiant-MATE/gtk-2.0/gtkrc"' > /home/andrei/.gtkrc-2.0
 
 USER andrei
+
+RUN mkdir phpcpp && \
+    wget https://api.github.com/repos/CopernicaMarketingSoftware/PHP-CPP/tarball/v2.1.2 -O phpcpp2.1.2.tar && \
+    tar xvzf phpcpp2.1.2.tar -C phpcpp --strip-components=1
+
+RUN mkdir php7.3 && \
+    wget http://at2.php.net/get/php-7.3.0.tar.gz/from/this/mirror -O php7.3.tar.gz && \
+    tar xvzf php7.3.tar.gz -C php7.3 --strip-components=1
+
+RUN mkdir -p ~/bin/php7.3/ && \
+    cd ~/php7.3 && \
+    ./configure --prefix=$HOME/bin/php7.3 --disable-all && \
+    make && \
+    make install
+    # cd ~/bin && \
+    # ln -s php-latest/bin/php php && \ 
+    # ln -s php-latest/bin/php-cgi php-cgi && \ 
+    # ln -s php-latest/bin/php-config php-config && \ 
+    # ln -s php-latest/bin/phpize phpize && \ 
+    # ln -s php-latest/bin/phar.phar phar && \ 
+    # ln -s php-latest/bin/pear pear && \ 
+    # ln -s php-latest/bin/phpdbg phpdbg && \ 
+    # ln -s php-latest/sbin/php-fpm php-fpm
+
+ENV PATH="/home/andrei/bin/php7.3/bin:${PATH}"
+
+RUN mkdir -p ~/bin/phpcpp/ && \
+    cd ~/phpcpp && \
+    make
+
+RUN cd /home/andrei/phpcpp/ && \
+    make INSTALL_PREFIX=/home/andrei/bin/phpcpp install
+    
+USER andrei
+
+RUN cd ~/ && \
+    cp php7.3/php.ini-development ~/bin/php7.3/lib/php.ini && \
+    rm php7.3.tar.gz && \
+    rm phpcpp2.1.2.tar && \
+    rm -rf php7.3 && \
+    rm -rf phpcpp
+
 CMD ["/bin/bash", "--login"]
