@@ -1,7 +1,13 @@
 FROM ubuntu:18.04
 
 RUN apt update && \
-    apt install -y curl gpg
+    apt install -y curl \
+    gpg \
+    coreutils \
+    tree \
+    nano \
+    net-tools \
+    locate
 
 RUN curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg && \
     install -o root -g root -m 644 microsoft.gpg /etc/apt/trusted.gpg.d/ && \
@@ -58,6 +64,8 @@ RUN pip3 install meson
 
 RUN echo 'include "/usr/share/themes/Ambiant-MATE/gtk-2.0/gtkrc"' > /home/andrei/.gtkrc-2.0
 
+RUN echo "root:root" | chpasswd
+
 USER andrei
 
 RUN mkdir phpcpp && \
@@ -71,7 +79,7 @@ RUN mkdir php7.3 && \
 RUN mkdir -p ~/bin/php7.3/ && \
     cd ~/php7.3 && \
     ./configure --prefix=$HOME/bin/php7.3 --disable-all && \
-    make && \
+    make -j4 && \
     make install
     # cd ~/bin && \
     # ln -s php-latest/bin/php php && \ 
@@ -87,12 +95,10 @@ ENV PATH="/home/andrei/bin/php7.3/bin:${PATH}"
 
 RUN mkdir -p ~/bin/phpcpp/ && \
     cd ~/phpcpp && \
-    make
+    make -j4
 
 RUN cd /home/andrei/phpcpp/ && \
     make INSTALL_PREFIX=/home/andrei/bin/phpcpp install
-    
-USER andrei
 
 RUN cd ~/ && \
     cp php7.3/php.ini-development ~/bin/php7.3/lib/php.ini && \
@@ -100,5 +106,7 @@ RUN cd ~/ && \
     rm phpcpp2.1.2.tar && \
     rm -rf php7.3 && \
     rm -rf phpcpp
+
+COPY .bashrc .bashrc
 
 CMD ["/bin/bash", "--login"]
