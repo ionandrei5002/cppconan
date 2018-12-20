@@ -18,7 +18,7 @@ else
             -v /tmp/.X11-unix:/tmp/.X11-unix \
             -v ~/$root_path/cppconan/.vscode/:/home/andrei/.vscode/ \
             -v $project:/home/andrei/project/ \
-            -p 8800:8800 \
+            -v /media/andrei/6e5f0878-8312-4de4-b648-d84d12f21529/PyOutput/:/home/andrei/datasource/ \
             cppconan:latest
         exit 0
     fi
