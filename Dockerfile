@@ -7,7 +7,8 @@ RUN apt update && \
     tree \
     nano \
     net-tools \
-    locate
+    locate \
+    bsdmainutils
 
 RUN curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg && \
     install -o root -g root -m 644 microsoft.gpg /etc/apt/trusted.gpg.d/ && \
