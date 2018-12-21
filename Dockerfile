@@ -82,15 +82,6 @@ RUN mkdir -p ~/bin/php7.3/ && \
     ./configure --prefix=$HOME/bin/php7.3 --disable-all && \
     make -j4 && \
     make install
-    # cd ~/bin && \
-    # ln -s php-latest/bin/php php && \ 
-    # ln -s php-latest/bin/php-cgi php-cgi && \ 
-    # ln -s php-latest/bin/php-config php-config && \ 
-    # ln -s php-latest/bin/phpize phpize && \ 
-    # ln -s php-latest/bin/phar.phar phar && \ 
-    # ln -s php-latest/bin/pear pear && \ 
-    # ln -s php-latest/bin/phpdbg phpdbg && \ 
-    # ln -s php-latest/sbin/php-fpm php-fpm
 
 ENV PATH="/home/andrei/bin/php7.3/bin:${PATH}"
 
